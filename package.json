@@ -1,0 +1,22 @@
+{
+  "name": "ogame-scripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "posttest": "npm run format",
+    "format": "prettier --write \"**/*.{js,css,md}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Southpaw17/ogame-scripts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Southpaw17/ogame-scripts/issues"
+  },
+  "homepage": "https://github.com/Southpaw17/ogame-scripts#readme"
+}
