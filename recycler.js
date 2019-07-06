@@ -23,7 +23,7 @@
     const currGalaxy = parseInt(galaxyInput.value)
     const currSystem = parseInt(systemInput.value)
 
-    galaxyInput.value = Math.max(currGalaxy + Math.floor(currSystem / 499), 1)
+    galaxyInput.value = Math.max(currGalaxy + Math.floor(currSystem / 499) % 7, 1)
     systemInput.value = Math.max((currSystem + 1) % 500, 1)
 
     goButton.click()
