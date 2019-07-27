@@ -46,7 +46,7 @@
     function sortMessages() {
       const ls = updateLocalStorage([])
       const lootPerDist = msg =>
-        parseInt(msg.resources.total) / calcTravelTime(msg.coords)
+        msg.resources.total / calcTravelTime(msg.coords)
 
       ls.sort((a, b) => (lootPerDist(b) > lootPerDist(a) ? 1 : -1))
 
@@ -58,7 +58,9 @@
     function updateLocalStorage(arr) {
       const ls = JSON.parse(localStorage.getItem(localStorageKey)) || []
 
-      const updated = [...ls, ...arr]
+      const concatenated = [...ls, ...arr].map(JSON.stringify)
+      const set = new Set(concatenated)
+      const updated = [...set].map(JSON.parse)
       localStorage.setItem(localStorageKey, JSON.stringify(updated))
       return updated
     }
@@ -87,16 +89,21 @@
           }
         }))
       ].filter(msg => msg.defense === 0)
+      .filter((msg) => msg.resources.total >= 100000)
 
       updateLocalStorage(messages)
     }
 
     function calcDistance(coords) {
       const base = {
-        galaxy: 3,
-        system: 24,
-        position: 12
+        galaxy: 1,
+        system: 201,
+        position: 10
       }
+
+      const galaxy = parseInt(coords.galaxy)
+      const system = parseInt(coords.system)
+      const position = parseInt(coords.position)
 
       const calcDist = (distFactor, flatDistance = 0) => (p1, p2) =>
         distFactor * Math.abs(p2 - p1) + flatDistance
@@ -104,16 +111,16 @@
       const calcSystem = calcDist(95, 2700)
       const calcPosition = calcDist(5, 1000)
 
-      if (coords.galaxy !== base.galaxy)
-        return calcGalaxy(coords.galaxy, base.galaxy)
-      if (coords.system !== base.system)
-        return calcSystem(coords.system, base.system)
-      if (coords.position !== base.position)
-        return calcPosition(coords.position, base.position)
+      if (galaxy !== base.galaxy)
+        return calcGalaxy(galaxy, base.galaxy)
+      if (system !== base.system)
+        return calcSystem(system, base.system)
+      if (position !== base.position)
+        return calcPosition(position, base.position)
       return 5
     }
 
-    function calcTravelTime(coords, velocity = 15750) {
+    function calcTravelTime(coords, velocity = 28000) {
       const speed = 3500
       const distance = calcDistance(coords)
       const value = Math.sqrt((10 * distance) / velocity)

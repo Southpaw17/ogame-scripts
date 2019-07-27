@@ -46,11 +46,6 @@
 
     if (params.page === "fleet1") {
       console.log("On Fleet 1")
-      .innerText.split("\n")[0]
-      .split(" ")[1]
-      .split("/")
-      .map(x => parseInt(x))
-
       if (fleetInfo.fleets < fleetInfo.fleetsSlots) {
         const availableSmallCargo = getShipAvailability(202)
         target.ships.am202 <= availableSmallCargo

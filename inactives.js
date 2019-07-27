@@ -26,7 +26,7 @@
       const thing = highscores.reduce(idToKey, {})
       const output = Object.values(players.reduce(idToKey, thing))
         .filter(player => player.status === "i")
-        .filter(player => player.position <= 1000)
+        .filter(player => player.position <= 500)
 
       Promise.all(
         output.map(player => fetchAndParse(`playerData.xml?id=${player.id}`))
@@ -86,6 +86,7 @@
             if (index === coords.length) {
               clearInterval(intervalId)
               console.log("Work Complete!")
+              setTimeout(() => location.href = '/game/index.php?page=messages', 60000)
             }
           }, 1000)
         })
