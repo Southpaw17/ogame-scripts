@@ -24,10 +24,10 @@
           return a
         }, {})
 
-    const fleetUsed = parseInt(localStorage.getItem('fleetUsed') || 0)
+    const fleetInfo = JSON.parse(localStorage.getItem('AGO_EN_UNI160_104889_Fleet_Current'))
     const params = parseParams()
     const ls = JSON.parse(localStorage.getItem("msgInfo"))
-    const target = ls[fleetUsed]
+    const target = ls[fleetInfo.fleets]
     const setCoord = type => ($(`#${type}`)[0].value = target.coords[type])
 
     if (params.page === "fleet3") {
@@ -46,16 +46,12 @@
 
     if (params.page === "fleet1") {
       console.log("On Fleet 1")
-      const [fleetUsed, fleetMax] = $(".ago_movement")[0]
       .innerText.split("\n")[0]
       .split(" ")[1]
       .split("/")
       .map(x => parseInt(x))
 
-      localStorage.setItem('fleetUsed', fleetUsed)
-      localStorage.setItem('fleetMax', fleetMax)
-
-      if (fleetUsed < fleetMax) {
+      if (fleetInfo.fleets < fleetInfo.fleetsSlots) {
         const availableSmallCargo = getShipAvailability(202)
         target.ships.am202 <= availableSmallCargo
           ? setShipsToSend(202, target.ships.am202)

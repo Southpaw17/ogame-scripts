@@ -1,10 +1,18 @@
+// ==UserScript==
+// @name         Sort and Filter Messages
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @match        https://s160-en.ogame.gameforge.com/game/index.php?page=messages
+// @grant        none
+// ==/UserScript==
+
 ;(function() {
   setTimeout(() => {
     const localStorageKey = "msgInfo"
     const url = () =>
       `/game/index.php?page=fleet1&type=1&routune=3`
-    const coordsToKey = coords =>
-      `[${coords.galaxy}:${coords.system}:${coords.position}]`
 
     const observer = new MutationObserver(() => {
       const [, prev, next, last] = $(".pagination .paginator")
@@ -115,3 +123,5 @@
     }
   }, 1000)
 })()
+
+
