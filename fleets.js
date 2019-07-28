@@ -27,11 +27,14 @@
     const fleetInfo = JSON.parse(localStorage.getItem('AGO_EN_UNI160_104889_Fleet_Current'))
     const params = parseParams()
     const ls = JSON.parse(localStorage.getItem("msgInfo"))
-    const target = ls[fleetInfo.fleets]
+    const targetIndex = ls.findIndex((msg) => msg.attacking === 0)
+    const target = ls[targetIndex]
     const setCoord = type => ($(`#${type}`)[0].value = target.coords[type])
 
     if (params.page === "fleet3") {
       console.log("On Fleet 3, setting mission to Attack and clicking Start")
+      ls[targetIndex].attacking = 1
+      localStorage.setItem('msgInfo', JSON.stringify(ls))
       $("#missionButton1").click()
       return $("#start").click()
     }
@@ -41,6 +44,9 @@
       setCoord("galaxy")
       setCoord("system")
       setCoord("position")
+      
+      // Make sure Target is set to Planet incase we are attacking from moon
+      setTType(1)
       return $("#continue").click()
     }
 

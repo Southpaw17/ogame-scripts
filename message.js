@@ -11,8 +11,7 @@
 ;(function() {
   setTimeout(() => {
     const localStorageKey = "msgInfo"
-    const url = () =>
-      `/game/index.php?page=fleet1&type=1&routune=3`
+    const url = () => `/game/index.php?page=fleet1&type=1&routune=3`
 
     const observer = new MutationObserver(() => {
       const [, prev, next, last] = $(".pagination .paginator")
@@ -88,17 +87,24 @@
             am203: parseInt(dataset.lc)
           }
         }))
-      ].filter(msg => msg.defense === 0)
-      .filter((msg) => msg.resources.total >= 100000)
+      ]
+        .filter(msg => msg.defense === 0)
+        .filter(msg => msg.resources.total >= 100000)
 
       updateLocalStorage(messages)
     }
 
     function calcDistance(coords) {
+      const coordsString = $(".ago_highlight .planet-koords")[0].innerText
+      const [g, s, p] = coordsString
+        .slice(1, coordsString.length - 1)
+        .split(":")
+        .map(x => parseInt(x))
+
       const base = {
-        galaxy: 1,
-        system: 201,
-        position: 10
+        galaxy: g,
+        system: s,
+        position: p
       }
 
       const galaxy = parseInt(coords.galaxy)
@@ -111,10 +117,8 @@
       const calcSystem = calcDist(95, 2700)
       const calcPosition = calcDist(5, 1000)
 
-      if (galaxy !== base.galaxy)
-        return calcGalaxy(galaxy, base.galaxy)
-      if (system !== base.system)
-        return calcSystem(system, base.system)
+      if (galaxy !== base.galaxy) return calcGalaxy(galaxy, base.galaxy)
+      if (system !== base.system) return calcSystem(system, base.system)
       if (position !== base.position)
         return calcPosition(position, base.position)
       return 5
@@ -130,5 +134,3 @@
     }
   }, 1000)
 })()
-
-
