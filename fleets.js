@@ -61,6 +61,8 @@
         checkShips("shipsChosen")
         $("#continue").click()
       } else {
+        localStorage.setItem('fleetStatus', 'attacking')
+        location.href = '/game/index.php?page=galaxy'
         return console.log("No Fleet Slots Available.  Stopping for now!")
       }
     }

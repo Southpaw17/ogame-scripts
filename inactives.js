@@ -70,6 +70,12 @@
               .split("/")
               .map(t => parseInt(t))
 
+              if (localStorage.getItem('fleetStatus') === 'attacking') {
+                if (used === 0) localStorage.removeItem('fleetStatus')
+                $('.btn_blue')[0].click()
+                return console.log('Fleet is currently attacking, doing nothing for now')
+              }
+
             if (used < total && probeCount >= 8) {
               const [galaxy, sector, planet] = coords[index].split(":")
               console.log(
