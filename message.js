@@ -75,7 +75,7 @@
             system: parseInt(dataset.system),
             position: parseInt(dataset.position)
           },
-          defense: parseInt(dataset.defense),
+          defense: parseInt(dataset.defense) + parseInt(dataset.fleet),
           resources: {
             total: parseInt(dataset.loot),
             metal: parseInt(dataset.metal),
