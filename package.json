@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Southpaw17/ogame-scripts/issues"
   },
-  "homepage": "https://github.com/Southpaw17/ogame-scripts#readme"
+  "homepage": "https://github.com/Southpaw17/ogame-scripts#readme",
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  }
 }
