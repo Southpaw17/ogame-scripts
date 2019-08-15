@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Ogame AI
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.6
 // @description  try to take over the world!
 // @author       You
 // @match        https://s160-en.ogame.gameforge.com/game/index.php*
@@ -56,16 +56,22 @@
 
   log(`Available Params:`, params)
   log("Local Storage Contents:", lStorage)
-  pages[params.page](lStorage, params)
+
+  setTimeout(() => pages[params.page](lStorage, params), 1000)
 
   function overview(ls, params) {}
 
   function fleet1(ls, params) {
+    const getShipAvailability = type =>
+      parseInt($(`#button${type} .level`)[0].innerHTML.split("</span>")[1])
+
+    const setShipsToSend = (type, quantity) =>
+      ($(`#ship_${type}`)[0].value = quantity)
     const targetIndex = ls.messages.findIndex(msg => msg.attacking === 0)
     const target = ls.messages[targetIndex]
 
     if (fleetInfo.fleets < fleetInfo.fleetsSlots) {
-      const availableSmallCargo = getShipAvailability(202)
+      const availableSmallCargo = getShipAvailability(ships.SMALL_CARGO)
       target.ships.am202 <= availableSmallCargo
         ? setShipsToSend(ships.SMALL_CARGO, target.ships.am202)
         : setShipsToSend(ships.LARGE_CARGO, target.ships.am203)
@@ -123,7 +129,7 @@
       characterData: true,
       childList: true
     })
-    localStorage.removeItem(localStorageKey)
+
     checkMessages()
     $(".pagination .paginator")[2].click()
 
@@ -221,9 +227,7 @@
           if (ls.fleetStatus === "attacking") {
             if (used <= 2) ls.fleetStatus = undefined
             $(".btn_blue")[0].click()
-            return log(
-              "Fleet is currently attacking, doing nothing for now"
-            )
+            return log("Fleet is currently attacking, doing nothing for now")
           }
 
           if (used < total && probeCount >= probesToUse) {
@@ -240,10 +244,7 @@
           if (index === planetsToScout.length) {
             clearInterval(intervalId)
             log("Work Complete!")
-            setTimeout(
-              () => goToUrl('messages'),
-              60000
-            )
+            setTimeout(() => goToUrl("messages"), 60000)
           }
         }, 1000)
       }
