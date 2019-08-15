@@ -9,6 +9,8 @@
 // ==/UserScript==
 
 ;(function() {
+  
+
   const url = path => `https://s160-en.ogame.gameforge.com/api/${path}`
   const fetchAndParse = uri =>
     fetch(url(uri))
@@ -24,7 +26,7 @@
 
       const planetsToScout = planets
         .filter(planet => playersToScout.indexOf(planet.id) !== -1)
-        .filter(planet => parseInt(planet.coords.split(':')[0]) <= 3)
+        .filter(planet => parseInt(planet.coords.split(":")[0]) <= 3)
         .map(planet => planet.coords)
         .sort((a, b) => {
           const [aG, aS, aP] = a.split(":").map(x => parseInt(x))
@@ -62,12 +64,12 @@
           )
         }
 
-        if (used < total && probeCount >= 8) {
+        if (used < total && probeCount >= probesToUse) {
           const [galaxy, sector, planet] = planetsToScout[index].split(":")
           console.log(
             `[${index}/${planetsToScout.length}]: Sending Probes to ${planetsToScout[index]}`
           )
-          window.sendShips(6, galaxy, sector, planet, 1, 8)
+          window.sendShips(6, galaxy, sector, planet, 1, probesToUse)
           index++
         } else {
           $(".btn_blue")[0].click()
