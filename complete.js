@@ -231,7 +231,10 @@
             .map(t => parseInt(t))
 
           if (ls.fleetStatus === "attacking") {
-            if (used <= 2) ls.fleetStatus = undefined
+            if (used <= 2) {
+              ls.fleetStatus = undefined
+              ls.messages = []
+            }
             $(".btn_blue")[0].click()
             return log("Fleet is currently attacking, doing nothing for now")
           }
