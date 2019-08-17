@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Ogame AI
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.8
 // @description  try to take over the world!
 // @author       You
 // @match        https://s160-en.ogame.gameforge.com/game/index.php*
@@ -168,7 +168,7 @@
             system: toInt(dataset.system),
             position: toInt(dataset.position)
           },
-          defense: toInt(dataset.defense) + toInt(dataset.fleet),
+          defense: toInt(dataset.defense),
           fleet: toInt(dataset.fleet),
           resources: {
             total: toInt(dataset.loot),
@@ -182,7 +182,7 @@
           }
         }))
       ]
-        .filter(msg => msg.defense <= 0 && msg.defense <= 50000)
+        .filter(msg => msg.defense >= 0 && msg.defense <= 50000)
         .filter(msg => msg.fleet === 0)
         .filter(msg => msg.resources.total >= 100000)
 
