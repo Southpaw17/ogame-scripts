@@ -76,6 +76,9 @@
         ? setShipsToSend(ships.SMALL_CARGO, target.ships.am202)
         : setShipsToSend(ships.LARGE_CARGO, target.ships.am203)
 
+        setShipsToSend(ships.CRUISER, 5)
+        setShipsToSend(ships.BATTLESHIP, 5)
+
       checkShips("shipsChosen")
       $("#continue").click()
     } else {
@@ -166,6 +169,7 @@
             position: toInt(dataset.position)
           },
           defense: toInt(dataset.defense) + toInt(dataset.fleet),
+          fleet: toInt(dataset.fleet),
           resources: {
             total: toInt(dataset.loot),
             metal: toInt(dataset.metal),
@@ -178,7 +182,8 @@
           }
         }))
       ]
-        .filter(msg => msg.defense === 0)
+        .filter(msg => msg.defense <= 0 && msg.defense <= 50000)
+        .filter(msg => msg.fleet === 0)
         .filter(msg => msg.resources.total >= 100000)
 
       updateLocalStorage(messages)
