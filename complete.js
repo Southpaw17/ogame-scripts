@@ -124,7 +124,7 @@
     if (isBuilding) {
       goToUrl('overview')
     } else {
-      if (getLevel(buildings.robotics < 10)) return build(buildings.robotics)
+      if (getLevel(buildings.robotics) < 10) return build(buildings.robotics)
       if (getLevel(buildings.nanite) < 2) return build(buildings.nanite)
       if (getLevel(buildings.shipyard) < 12) return build(buildings.shipyard)
     }
