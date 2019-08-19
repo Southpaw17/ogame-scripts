@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Ogame AI
 // @namespace    http://tampermonkey.net/
-// @version      0.8
+// @version      0.9
 // @description  try to take over the world!
 // @author       You
 // @match        https://s160-en.ogame.gameforge.com/game/index.php*
@@ -51,7 +51,9 @@
     fleet2,
     fleet3,
     messages,
-    galaxy
+    galaxy,
+    resources,
+    station
   }
 
   log(`Available Params:`, params)
@@ -59,7 +61,74 @@
 
   setTimeout(() => pages[params.page](lStorage, params), 1000)
 
-  function overview(ls, params) {}
+  function overview(ls, params) {
+    goToUrl('station')
+  }
+
+  function resources(ls, params) {
+    const buildings = {
+      metal: 1,
+      crystal: 2,
+      deuterium: 3,
+      solar: 4,
+      fusion: 5,
+      sats: 6
+    }
+
+    const storage = {
+      metal: 7,
+      crystal: 8,
+      deuterium: 9
+    }
+
+    const bulidingGoal = 24
+
+    const isBuilding = !!(
+      $("#building .construction").length || $("#storage .construction").length
+    )
+    const getLevel = id =>
+      parseInt($(`#button${id} .level`)[0].innerText.split("\n")[1])
+
+    if (!isBuilding) {
+      const metalLevel = getLevel(buildings.level)
+      const crystalLevel = getLevel(buildings.crystal)
+      const deutLevel = getLevel(buildings.deuterium)
+      const solarLevel = getLevel(buildings.solar)
+
+      if (solarLevel < deutLevel) return build(buildings.solar)
+      if (deutLevel < crystalLevel) return build(buildings.deuterium)
+      if (solarLevel < metalLevel) return build(buildings.crystal)
+      if (metalLevel < 24) return build(buildings.metal)
+    }
+  }
+
+  function station(ls, params) {
+    const buildings = {
+      robotics: 0,
+      shipyard: 1,
+      research: 2,
+      silo: 4,
+      nanite: 5,
+      terraformer: 6,
+      dock: 7
+    }
+
+    const isBuilding = !!$("#stationbuilding .construction").length
+    const getLevel = id =>
+      parseInt($(`#button${id} .level`)[0].innerText.split("\n")[1])
+    const build = id => $(`#button${id} .fastBuild`).click()
+
+    log("Building Status: ", isBuilding)
+    log("Current Level: ", getLevel(buildings.robotics))
+
+    if (isBuilding) {
+      goToUrl('overview')
+    } else {
+      if (getLevel(buildings.robotics < 10)) return build(buildings.robotics)
+      if (getLevel(buildings.nanite) < 2) return build(buildings.nanite)
+      if (getLevel(buildings.shipyard) < 12) return build(buildings.shipyard)
+    }
+  }
 
   function fleet1(ls, params) {
     const getShipAvailability = type =>
@@ -76,8 +145,8 @@
         ? setShipsToSend(ships.SMALL_CARGO, target.ships.am202)
         : setShipsToSend(ships.LARGE_CARGO, target.ships.am203)
 
-        setShipsToSend(ships.CRUISER, 5)
-        setShipsToSend(ships.BATTLESHIP, 5)
+      setShipsToSend(ships.CRUISER, 5)
+      setShipsToSend(ships.BATTLESHIP, 5)
 
       checkShips("shipsChosen")
       $("#continue").click()
@@ -142,7 +211,7 @@
 
       ls.messages.sort((a, b) => (lootPerDist(b) > lootPerDist(a) ? 1 : -1))
 
-      $('.trash_action').click()
+      $(".trash_action").click()
       goToUrl("fleet1")
     }
 
