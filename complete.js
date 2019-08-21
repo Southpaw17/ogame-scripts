@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Ogame AI
 // @namespace    http://tampermonkey.net/
-// @version      0.9
+// @version      0.10
 // @description  try to take over the world!
 // @author       You
 // @match        https://s160-en.ogame.gameforge.com/game/index.php*
@@ -132,7 +132,7 @@
 
   function fleet1(ls, params) {
     const getShipAvailability = type =>
-      parseInt($(`#button${type} .level`)[0].innerHTML.split("</span>")[1])
+      parseInt($(`#button${type} .level`)[0].innerHTML.split("</span>")[1].replace('.', ''))
 
     const setShipsToSend = (type, quantity) =>
       ($(`#ship_${type}`)[0].value = quantity)
