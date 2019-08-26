@@ -41,6 +41,8 @@
     localStorage.getItem("AGO_EN_UNI160_104889_Fleet_Current")
   )
 
+  const getResource = type => parseInt($(`#resources_${type}`).text().replace(/\./g, ''))
+
   window.addEventListener("unload", () => {
     localStorage.setItem("completeJS", JSON.stringify(lStorage))
   })
@@ -99,6 +101,10 @@
       if (deutLevel < crystalLevel) return build(buildings.deuterium)
       if (solarLevel < metalLevel) return build(buildings.crystal)
       if (metalLevel < 24) return build(buildings.metal)
+
+      if (getLevel(storage.deuterium) < getLevel(storage.crystal)) return build(storage.deuterium)
+      if (getLevel(storage.crystal) < getLevel(storage.metal)) return build(storage.crystal)
+      if (getLevel(storage.metal) < 7) return build(storage.metal)
     }
   }
 
