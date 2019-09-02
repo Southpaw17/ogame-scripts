@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         Ogame AI
 // @namespace    http://tampermonkey.net/
-// @version      0.10
-// @description  try to take over the world!
+// @version      0.11
+// @description  Master file
 // @author       You
 // @match        https://s160-en.ogame.gameforge.com/game/index.php*
 // @grant        none
+// @require      https://github.com/Southpaw17/ogame-scripts/blob/master/utils.js
 // ==/UserScript==
 
 ;(function() {
@@ -68,6 +69,7 @@
   }
 
   function resources(ls, params) {
+    const build = id => $(`#button${id} .fastBuild`).click()
     const buildings = {
       metal: 1,
       crystal: 2,
@@ -92,7 +94,7 @@
       parseInt($(`#button${id} .level`)[0].innerText.split("\n")[1])
 
     if (!isBuilding) {
-      const metalLevel = getLevel(buildings.level)
+      const metalLevel = getLevel(buildings.metal)
       const crystalLevel = getLevel(buildings.crystal)
       const deutLevel = getLevel(buildings.deuterium)
       const solarLevel = getLevel(buildings.solar)
