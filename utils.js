@@ -9,6 +9,6 @@
 // ==/UserScript==
 
 ;(function() {
-    console.log('it worked')
+    console.log('it worked and auto updates')
 })()
   
