@@ -6,7 +6,7 @@
 // @author       You
 // @match        https://s160-en.ogame.gameforge.com/game/index.php*
 // @grant        none
-// @require      https://github.com/Southpaw17/ogame-scripts/blob/master/utils.js
+// @require      https://raw.githubusercontent.com/Southpaw17/ogame-scripts/master/utils.js
 // ==/UserScript==
 
 ;(function() {
